@@ -8,6 +8,11 @@ import java.util.List;
 public class ArbitraryInOut implements Effect {
     private final int in, out;
 
+    public ArbitraryInOut() {
+        in = 1;
+        out = 1;
+    }
+
     public ArbitraryInOut(int in, int out) {
         this.in = in;
         this.out = out;

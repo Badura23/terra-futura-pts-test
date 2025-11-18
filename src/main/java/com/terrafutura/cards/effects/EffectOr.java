@@ -13,6 +13,11 @@ public class EffectOr implements Effect {
         children = new ArrayList<>();
     }
 
+    public EffectOr(Effect ...children) {
+        this.children = new ArrayList<>();
+        this.children.addAll(List.of(children));
+    }
+
     @Override
     public boolean check(List<Resource> input, List<Resource> output, int pollution) {
         for (Effect e : children) {
@@ -27,6 +32,10 @@ public class EffectOr implements Effect {
 
     public void addChild(Effect e) {
         children.add(e);
+    }
+
+    public void addChild(Effect ... es) {
+        children.addAll(List.of(es));
     }
 
     public List<Effect> getChildren() {

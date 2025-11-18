@@ -3,15 +3,28 @@ package main.java.com.terrafutura.cards.effects;
 import main.java.com.terrafutura.cards.Effect;
 import main.java.com.terrafutura.resources.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static main.java.com.terrafutura.resources.Resource.Money;
 
 public class ArbitraryBasic implements Effect {
     private final int from;
     private final List<Resource> to;
 
+    public ArbitraryBasic(List<Resource> to) {
+        from = 1;
+        this.to = new ArrayList<>(to);
+    }
+
+    public ArbitraryBasic() {
+        from = 1;
+        to = List.of(Money);
+    }
+
     public ArbitraryBasic(int from, List<Resource> resources) {
         this.from = from;
-        to = resources;
+        to = new ArrayList<>(resources);
     }
 
     @Override

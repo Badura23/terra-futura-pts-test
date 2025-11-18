@@ -3,6 +3,7 @@ package main.java.com.terrafutura.cards.effects;
 import main.java.com.terrafutura.cards.Effect;
 import main.java.com.terrafutura.resources.Resource;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,8 +14,13 @@ public class ArbitraryOutput implements Effect {
     private final List<Resource> from;
     private final int to;
 
+    public ArbitraryOutput(List<Resource> from) {
+        this.from = new ArrayList<>(from);
+        to = 1;
+    }
+
     public ArbitraryOutput(List<Resource> from, int to) {
-        this.from = from;
+        this.from = new ArrayList<>(from);
         this.to = to;
     }
 

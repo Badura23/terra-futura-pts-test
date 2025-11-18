@@ -3,16 +3,25 @@ package main.java.com.terrafutura.cards.effects;
 import main.java.com.terrafutura.cards.Effect;
 import main.java.com.terrafutura.resources.Resource;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import static main.java.com.terrafutura.resources.Resource.Car;
+import static main.java.com.terrafutura.resources.Resource.Money;
 
 public class TransformationFixed implements Effect {
     private List<Resource> from;
     private List<Resource> to;
 
+    public TransformationFixed() {
+        from = List.of(Money);
+        to = List.of(Car);
+    }
+
     public TransformationFixed(List<Resource> from, List<Resource> to, int pollution, boolean hasAssistance) {
-        this.from = from;
-        this.to = to;
+        this.from = new ArrayList<>(from);
+        this.to = new ArrayList<>(to);
     }
 
     @Override
