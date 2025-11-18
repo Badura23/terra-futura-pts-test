@@ -25,9 +25,7 @@ public class ArbitraryInOut implements Effect {
 
     @Override
     public String state() {
-        StringBuilder s = new StringBuilder();
-        s.append("[(any ").append(in).append(" resources) -> (any ")
-                .append(out).append(" resources)]");
-        return s.toString();
+        return "[(any " + in + " resources) -> (any " +
+                out + " resources)]";
     }
 }
