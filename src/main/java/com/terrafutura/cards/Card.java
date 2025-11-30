@@ -1,6 +1,5 @@
 package main.java.com.terrafutura.cards;
 
-import main.java.com.terrafutura.*;
 import main.java.com.terrafutura.resources.Resource;
 
 import java.util.*;
@@ -12,6 +11,13 @@ public class Card {
 
     public Card(List<Resource> resources, int pollutionSpaces) {
         this.resources = new ArrayList<>(resources);
+        this.pollutionSpaces = pollutionSpaces;
+    }
+
+
+    public Card(int pollutionSpaces, Optional<Effect> effect, Optional<Effect> lowerEffect) {
+        // needs implementation
+        resources = new ArrayList<>();
         this.pollutionSpaces = pollutionSpaces;
     }
 
