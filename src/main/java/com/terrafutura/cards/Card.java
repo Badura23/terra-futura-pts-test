@@ -36,6 +36,8 @@ public class Card {
     public void putResources(List<Resource> resources) {
         this.resources.addAll(resources);
     }
+    
+    public void removeResource(Resource resource){}
 
     public boolean check(List<Resource> input, List<Resource> output, int pollution) {
         return false;
