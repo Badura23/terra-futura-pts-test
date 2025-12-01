@@ -10,6 +10,9 @@ public class GridPosition {
         if (y <= 2 && y >= -2) {
             this.y = y;
         }
+        if (x < -2 || x > 2 || y < -2 || y > 2) {
+            throw new IllegalArgumentException("Coordinates out of bounds.");
+        }
     }
 
     public int getX() {
