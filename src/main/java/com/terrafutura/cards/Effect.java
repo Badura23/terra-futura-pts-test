@@ -16,7 +16,7 @@ public interface Effect {
     /**
      * By the requirements of this implementation, Assistance is not required to implement -
      * not possible on any of the cards.
-     * @return False.
+     * @return False by default, value given in constructor in most implementations.
      */
     default boolean hasAssistance() {
         return false;

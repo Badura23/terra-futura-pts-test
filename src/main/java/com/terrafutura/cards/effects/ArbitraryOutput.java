@@ -13,15 +13,17 @@ import java.util.List;
 public class ArbitraryOutput implements Effect {
     private final List<Resource> from;
     private final int to;
-
-    public ArbitraryOutput(List<Resource> from) {
-        this.from = new ArrayList<>(from);
-        to = 1;
-    }
+    private boolean hasAssistance = false;
 
     public ArbitraryOutput(List<Resource> from, int to) {
         this.from = new ArrayList<>(from);
         this.to = to;
+    }
+
+    public ArbitraryOutput(List<Resource> from, int to, boolean hasAssistance) {
+        this.from = new ArrayList<>(from);
+        this.to = to;
+        this.hasAssistance = hasAssistance;
     }
 
     /**
@@ -37,6 +39,11 @@ public class ArbitraryOutput implements Effect {
             return desiredOutput.size() == to;
         }
         return false;
+    }
+
+    @Override
+    public boolean hasAssistance() {
+        return hasAssistance;
     }
 
     @Override

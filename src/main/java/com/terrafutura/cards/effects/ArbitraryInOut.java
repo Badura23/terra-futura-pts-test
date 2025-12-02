@@ -7,11 +7,8 @@ import java.util.List;
 
 public class ArbitraryInOut implements Effect {
     private final int in, out;
+    private boolean hasAssistance = false;
 
-    public ArbitraryInOut() {
-        in = 1;
-        out = 1;
-    }
 
     public ArbitraryInOut(int in, int out) {
         this.in = in;
@@ -21,6 +18,12 @@ public class ArbitraryInOut implements Effect {
     public ArbitraryInOut(int in, int out, boolean hasAssistance) {
         this.in = in;
         this.out = out;
+        this.hasAssistance = hasAssistance;
+    }
+
+    @Override
+    public boolean hasAssistance() {
+        return hasAssistance;
     }
 
     @Override

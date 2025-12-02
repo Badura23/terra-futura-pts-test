@@ -11,8 +11,9 @@ import static main.java.com.terrafutura.resources.Resource.Car;
 import static main.java.com.terrafutura.resources.Resource.Money;
 
 public class TransformationFixed implements Effect {
-    private List<Resource> from;
-    private List<Resource> to;
+    private final List<Resource> from;
+    private final List<Resource> to;
+    private boolean hasAssistance = false;
 
     public TransformationFixed() {
         from = List.of(Money);
@@ -27,6 +28,7 @@ public class TransformationFixed implements Effect {
     public TransformationFixed(List<Resource> from, List<Resource> to, int pollution, boolean hasAssistance) {
         this.from = new ArrayList<>(from);
         this.to = new ArrayList<>(to);
+        this.hasAssistance = hasAssistance;
     }
 
     @Override
@@ -35,6 +37,11 @@ public class TransformationFixed implements Effect {
             return new HashSet<>(to).containsAll(output);
         }
         return false;
+    }
+
+    @Override
+    public boolean hasAssistance() {
+        return hasAssistance;
     }
 
     @Override
