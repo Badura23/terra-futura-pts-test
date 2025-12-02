@@ -53,12 +53,49 @@ public class Card {
     }
 
     /**
+     * Creates a card with the given pollution capacity and effect.
+     *
+     * @param pollutionSpaces number of pollution spaces before card becomes blocked
+     * @param effect          upper effect of the card
+     */
+    public Card(int pollutionSpaces, Effect effect) {
+        resources = new ArrayList<>();
+        pollutionSpacesLeft = pollutionSpaces;
+        isBlockedByPollution = false;
+        this.effect = Optional.of(effect);
+        this.lowerEffect = Optional.empty();
+    }
+
+    /**
+     * Creates a card with the given pollution capacity and effects.
+     *
+     * @param pollutionSpaces number of pollution spaces before card becomes blocked
+     * @param effect          upper effect of the card
+     * @param lowerEffect     lower effect of the card
+     */
+    public Card(int pollutionSpaces, Effect effect, Effect lowerEffect) {
+        resources = new ArrayList<>();
+        pollutionSpacesLeft = pollutionSpaces;
+        isBlockedByPollution = false;
+        this.effect = Optional.of(effect);
+        this.lowerEffect = Optional.of(lowerEffect);
+    }
+
+    /**
      * Checks if the card contains all requested resources.
+     * Blocked cards cannot provide any resources unless requesting pollution to be removed.
      *
      * @param resources list of resources to check
      * @return true if all requested resources are present
      */
     public boolean canGetResources(List<Resource> resources) {
+        if (isBlockedByPollution) {
+            for (Resource resource : resources) {
+                if (!resource.equals(Resource.Pollution)) {
+                    return false;
+                }
+            }
+        }
         return new HashSet<>(this.resources).containsAll(resources);
     }
 
@@ -73,7 +110,7 @@ public class Card {
 
     /**
      * Checks whether new resources may be placed on this card.
-     * This requires passing the card's effect validation.
+     * This requires not overpassing the limit of pollution that can be placed on this card.
      * If the card is blocked by pollution, it cannot accept any resources.
      *
      * @param resources resources to add
@@ -81,10 +118,9 @@ public class Card {
      */
     public boolean canPutResources(List<Resource> resources) {
         if (isBlockedByPollution) return false;
-        if (check(this.resources, resources, 0)) {
-            return true;
-        }
-        return checkLower(this.resources, resources, 0);
+        int currentPollution = (int) this.resources.stream().filter(r -> r == Resource.Pollution).count();
+        int pollutionToPut = (int) resources.stream().filter(r -> r == Resource.Pollution).count();
+        return currentPollution + pollutionToPut <= pollutionSpacesLeft + 1;
     }
 
     /**
@@ -95,7 +131,8 @@ public class Card {
      */
     public void putResources(List<Resource> resources) {
         this.resources.addAll(resources);
-        if (resources.contains(Resource.Pollution)) {
+        int newPollution = (int) resources.stream().filter(r -> r == Resource.Pollution).count();
+        for (int i = 0; i < newPollution; i++) {
             pollutionSpacesLeft--;
             if (pollutionSpacesLeft < 0) {
                 isBlockedByPollution = true;
@@ -167,9 +204,16 @@ public class Card {
      * @return readable representation of the card state
      */
     public String state() {
-        return "Card{resources=" + resources +
-                ", pollutionSpacesLeft=" + pollutionSpacesLeft +
-                ", isBlockedByPollution=" + isBlockedByPollution + "}";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Card{resources=").append(resources);
+        sb.append(", pollutionSpacesLeft=").append(pollutionSpacesLeft);
+        sb.append(", isBlockedByPollution=").append(isBlockedByPollution);
+        effect.ifPresent(value -> sb.append(", effect=").append(value.state()));
+        lowerEffect.ifPresent(value -> sb.append(", lowerEffect=").append(value.state()));
+        sb.append("}");
+
+        return sb.toString();
     }
 
     @Override
