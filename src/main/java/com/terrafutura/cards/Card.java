@@ -8,6 +8,8 @@ public class Card {
 
     private final List<Resource> resources;
     private final int pollutionSpaces;
+    private Effect effect;
+    private Effect lowerEffect;
 
     public Card(List<Resource> resources, int pollutionSpaces) {
         this.resources = new ArrayList<>(resources);
@@ -19,6 +21,8 @@ public class Card {
         // needs implementation
         resources = new ArrayList<>();
         this.pollutionSpaces = pollutionSpaces;
+        this.effect = effect.orElse(null);
+        this.lowerEffect = lowerEffect.orElse(null);
     }
 
     public boolean canGetResources(List<Resource> resources) {

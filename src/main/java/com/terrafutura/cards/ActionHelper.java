@@ -21,6 +21,16 @@ public class ActionHelper {
                              List<Pair<Resource, GridPosition>> outputs, List<GridPosition> pollution) {
         return grid == null || card == null || inputs == null || outputs == null || pollution == null;
     }
+    /**
+     * Checks if coaordinations are valid
+     * @param position to check
+     * @return true if the position is valid, false if it is invalid
+     * */
+    private boolean inValidCoordinations(GridPosition position){
+        int x = position.getX();
+        int y = position.getY();
+        return x < -2 || x > 2 || y < -2 || y > 2;
+    }
 
     /**
      * Validates all input resources - checks positions and resource availability
@@ -31,8 +41,8 @@ public class ActionHelper {
             Resource resource = input.getFirst();
             GridPosition position = input.getSecond();
 
-            // Check if the position contains a card (canPutCard=true means empty position)
-            if (grid.canPutCard(position)){
+            // Check if the position is valid and if grid contains a card (canPutCard=true means empty position)
+            if (grid.canPutCard(position) || inValidCoordinations(position)){
                 return false;
             }
 
@@ -53,8 +63,8 @@ public class ActionHelper {
             Resource resource = output.getFirst();
             GridPosition position = output.getSecond();
 
-            // Check if the position contains a card
-            if (grid.canPutCard(position)){
+            // Check if the position is valid and if grid contains a card
+            if (grid.canPutCard(position) || inValidCoordinations(position)){
                 return false;
             }
             Optional<Card> cardOpt = grid.getCard(position);
@@ -74,7 +84,7 @@ public class ActionHelper {
         Map<Card, Integer> pollutionPerCard = new HashMap<>();
 
         for (GridPosition position : pollution) {
-            if (grid.canPutCard(position)) {
+            if (grid.canPutCard(position) || inValidCoordinations(position)) {
                 return false;
             }
             Optional<Card> cardOpt = grid.getCard(position);
@@ -112,14 +122,14 @@ public class ActionHelper {
      * @return true if the card's effect approves the proposed resource transformation
      */
     public boolean validTransaction(Card card, List<Pair<Resource, GridPosition>> inputs,
-                                    List<Pair<Resource, GridPosition>> outputs, boolean upper) {
-        int currentPollution = (int)card.getResources().stream().filter(r -> r == Resource.Pollution).count();
+                                    List<Pair<Resource, GridPosition>> outputs, List<GridPosition> pollution, boolean upper) {
+        int pollutionFromTransaction = pollution.size();
         List<Resource> inputResources = extractResources(inputs);
         List<Resource> outputResources = extractResources(outputs);
         if (upper) {
-            return card.check(inputResources, outputResources, currentPollution);
+            return card.check(inputResources, outputResources, pollutionFromTransaction);
         }else {
-            return card.checkLower(inputResources, outputResources, currentPollution);
+            return card.checkLower(inputResources, outputResources, pollutionFromTransaction);
         }
     }
 

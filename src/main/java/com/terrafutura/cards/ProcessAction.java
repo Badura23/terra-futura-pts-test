@@ -75,8 +75,8 @@ public class ProcessAction {
 
         // Validate the transaction against card's effect rules
         // Try upper effect first, then lower effect if upper fails
-        if (!helper.validTransaction(card, inputs, outputs, true)) { //try upper
-            if (!helper.validTransaction(card, inputs, outputs, false)){ // try lower
+        if (!helper.validTransaction(card, inputs, outputs, pollution, true)) { //try upper
+            if (!helper.validTransaction(card, inputs, outputs, pollution, false)){ // try lower
                 return false; // Both effects rejected the transaction
             }
         }

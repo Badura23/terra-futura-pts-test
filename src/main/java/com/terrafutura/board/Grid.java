@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class Grid {
+    private Card startingCard;
+
+    public Grid(Card startingCard){
+        this.startingCard = startingCard;
+    }
+
     public void putCard(GridPosition coordinate, Card card) { }
     public boolean canPutCard(GridPosition coordinate) { return false; }
     public Optional<Card> getCard(GridPosition position) {

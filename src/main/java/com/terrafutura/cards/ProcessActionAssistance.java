@@ -84,9 +84,8 @@ public class ProcessActionAssistance {
 
         // 2. Validate transformation using ASSISTING CARD (try both effects)
         List<Resource> outputResources = helper.extractResources(outputs);
-        int assistingCardPollution = (int)assistingCard.getResources().stream().filter(r -> r == Resource.Pollution).count();
-        if (!assistingCard.check(inputResources, outputResources, assistingCardPollution)) {
-            if (!assistingCard.checkLower(inputResources, outputResources, assistingCardPollution)) {
+        if (!assistingCard.check(inputResources, outputResources, pollution.size())) {
+            if (!assistingCard.checkLower(inputResources, outputResources, pollution.size())) {
                 return false; // Helping card must support this transformation
             }
         }
