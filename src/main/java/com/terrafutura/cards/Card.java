@@ -166,6 +166,8 @@ public class Card {
             removeResource(resource);
         }
     }
+    
+    public void removeResource(Resource resource){}
 
     /**
      * Checks whether this card's upper effect may be used for the given input and output resource lists.
